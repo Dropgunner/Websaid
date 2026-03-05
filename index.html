@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Agentic AI Knowledge Base — A comprehensive guide to building, deploying, and operating agentic AI systems."/>
+<title>Agentic AI Knowledge Base</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ── TOP BAR ── -->
+<header class="topbar" id="topbar">
+  <div class="tb-left">
+    <button class="hamburger" id="menuBtn" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="brand" href="#" onclick="showHome();return false;">
+      <span class="brand-icon">🤖</span>
+      <span class="brand-name">Agentic <strong>AI KB</strong></span>
+    </a>
+  </div>
+  <div class="tb-center">
+    <div class="searchbox" id="searchbox">
+      <svg class="search-ico" viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.8"/><path d="M15 15l-3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <input id="searchInput" type="text" placeholder="Search topics, frameworks, concepts…" autocomplete="off" spellcheck="false"/>
+      <kbd>⌘K</kbd>
+    </div>
+  </div>
+  <div class="tb-right">
+    <div class="progress-chip" id="progressChip">
+      <svg viewBox="0 0 36 36" class="ring-svg"><circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--border)" stroke-width="3"/><circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="0 100" stroke-linecap="round" id="ringArc" style="transform:rotate(-90deg);transform-origin:center"/></svg>
+      <span id="progressLabel">0/17</span>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ── SEARCH OVERLAY ── -->
+<div id="searchOverlay" class="search-overlay hidden">
+  <div class="search-panel">
+    <div class="sp-header">
+      <svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.8"/><path d="M15 15l-3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <input id="searchInputOverlay" type="text" placeholder="Search…" autocomplete="off"/>
+      <button onclick="closeSearch()" class="sp-close">ESC</button>
+    </div>
+    <div id="searchResults" class="sp-results"></div>
+  </div>
+</div>
+
+<!-- ── SIDEBAR ── -->
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-scroll">
+    <div class="sidebar-section-label">Contents</div>
+    <nav id="sidebarNav"></nav>
+    <div class="sidebar-footer">
+      <button class="reset-btn" id="resetBtn">↺ Reset Progress</button>
+    </div>
+  </div>
+</aside>
+<div class="sidebar-overlay hidden" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- ── MAIN ── -->
+<main id="main" class="main">
+
+  <!-- HOME -->
+  <section id="homeView" class="home-view">
+    <div class="home-hero">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        Comprehensive Knowledge Repository
+      </div>
+      <h1 class="hero-title">Agentic AI<br/><span class="gradient">Knowledge Base</span></h1>
+      <p class="hero-desc">Everything you need to build, deploy, and operate agentic AI systems at scale — from foundational concepts to production best practices.</p>
+      <div class="hero-stats" id="heroStats"></div>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="navigateTo(1)">Start Learning →</button>
+        <button class="btn-ghost" onclick="openSearch()">🔍 Search Topics</button>
+      </div>
+    </div>
+    <div class="section-grid" id="sectionGrid"></div>
+  </section>
+
+  <!-- SECTION VIEW -->
+  <section id="sectionView" class="section-view hidden">
+    <div class="sv-breadcrumb" id="svBreadcrumb"></div>
+    <div class="sv-header" id="svHeader"></div>
+    <div class="sv-toolbar">
+      <button class="mark-btn" id="markBtn" onclick="toggleRead()">✓ Mark as Read</button>
+      <div class="sv-nav-btns">
+        <button class="nav-pill" id="prevBtn" onclick="navigatePrev()">← Prev</button>
+        <button class="nav-pill" id="nextBtn" onclick="navigateNext()">Next →</button>
+      </div>
+    </div>
+    <div id="svContent"></div>
+    <div class="sv-bottom-nav">
+      <button class="nav-pill large" id="prevBtn2" onclick="navigatePrev()">← Previous Section</button>
+      <button class="nav-pill large accent" id="nextBtn2" onclick="navigateNext()">Next Section →</button>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── MODAL ── -->
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+  <div class="modal-bg" onclick="closeModal()"></div>
+  <div class="modal-card">
+    <div class="modal-top">
+      <div>
+        <div class="modal-section-label" id="modalSectionLabel"></div>
+        <h2 id="modalTitle"></h2>
+      </div>
+      <button class="modal-x" onclick="closeModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-foot" id="modalFoot"></div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div id="toast" class="toast" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
